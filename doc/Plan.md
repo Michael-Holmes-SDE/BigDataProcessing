@@ -7,17 +7,133 @@
 
 Deliver:
 
-*   [ ] Re-write the instructions in your own words.
+*   [X] Re-write the instructions in your own words.
     *   If you don't do this, you won't know what you're supposed to do!
     *   Don't leave out details!
-*   [ ] Explain the problem this program aims to solve.
+    *   What I need to do:
+	* PHASE 0:
+	1. Download 2021.annual.singlefile.zip and unzip in data/USA_full/
+	2. Read the Project Requirements
+	3. Read 'QCEW Area Codes and Titles' and 'QCEW Field Layouts'
+	4. Fill out Phase 0 of the SDP(What does the program do, how, and changes I expect to make)
+	5. Tag commit 'analyzed' and push to GitLab
+	
+	* PHASE 1:
+	1. Design functions in Phase 1 in pseudocode
+	2. Use the dictionary 'rpt'
+	3. Ensure the files are read one line at a time, only one line in memory, with contents stored in the dictionary
+	4. Only include required FIPS areas(Only FIPS that starts with an int and doesn't end with 3 zeros)
+	5. Skip over lines for excluded FIPS areas AND that don't belong to the wanted sectors of the economy(must include desired values for 'area_fips', 'industry_code', and 'own_code' in the report)
+	6. No eval()
+	7. If a non-skipped line has 'industry_code' = '10' and 'own_code' = '0', add data to 'all industries' portion of report
+	8. If a non-skipped line has 'industry_code' = '5112' and 'own_code' = '5', add data to 'software publishing industry' portion of report 
+	5. Close file after it is read
+	2. Tag commit 'designed' and push to GitLab
+	
+	* PHASE 2:
+	1. Follow the instructions in each sub-directory of data/USA_full/ to make test cases
+	2. Use the Benchmark to see how long the program should take (225.22s)(took 45.04s)
+	3. Implement the code as defined in Phase 1 to where the program works without crashing
+	4. Ensure the code can be run from any directory but the files themselves are hard-coded
+	4. Explain what changed between Phase 1 and Phase 2
+	5. Tag commit 'implemented' and push to GitLab
+	
+	* Phase 3:
+	1. Test all data sets
+	2. Fill out the test cases I used in SDP
+	3. If bugs were found, say what they were and how it was fixed
+	4. Tag commit 'tested' and push to GitLab
+	
+	* Phase 4:
+	1. Fill out
+	2. Tag commit 'deployed' and push to GitLab
+
+	* Phase 5:
+	1. Review SDP and Signature
+	2. Fill out
+	3. Tag commit 'final' and push to GitLab
+	4. Check Starter Code Quiz score
+	5. Fill out the Assignment Reflection Survey
+
+*   [X] Explain the problem this program aims to solve.
+	* This program aims to summarize the employment data for 2021
     *   Describe what a *good* solution looks like.
+	* A good solution will look like the following:
+	[============]
+	[Final Report]
+	[============]
+
+	Statistics over all industries in 2021:
+	=========================================================
+	Number of FIPS areas in report       3,274
+
+	Total annual wages                   $9,749,457,535,475
+	Area with maximum annual wages       New York County, New York
+	Maximum reported wage                $349,820,933,687
+	
+	Total number of establishments       10,960,881
+	Area with most establishments        Los Angeles County, California
+	Maximum # of establishments          525,496
+	
+	Total annual employment level        144,691,578
+	Area with maximum employment         Los Angeles County, California
+	Maximum reported employment level    4,252,857
+	
+	
+	Statistics over the software publishing industry in 2021:
+	=========================================================
+	Number of FIPS areas in report       1,627
+
+	Total annual wages                   $111,505,515,321
+	Area with maximum annual wages       King County, Washington
+	Maximum reported wage                $24,259,942,206
+
+	Total number of establishments       54,994
+	Area with most establishments        New York County, New York
+	Maximum # of establishments          1,636
+
+	Total annual employment level        535,426
+	Area with maximum employment         King County, Washington
+	Maximum reported employment level    74,792
+	
     *   List what you already know how to do.
+	1. I know how to setup the output
+	2. I know how to find the FIPS numbers
+	3. I know how to find the large values and which they are(ie. 'Area with most establishments', 'Maximum # of establishments')
+	4. I know how to (hopefully) get all of the values I need to print out from the csv file
     *   Point out any challenges that you can foresee.
-*   [ ] List all of the data that is used by the program, making note of where it comes from.
+	1. I don't know how to only have one line of a file at a time in the computer's memory
+	2. I don't know how to split a CSV line into two using .split() when there are many commas(now I do)
+	3. I'm not 100% sure I know how to get all of the values I need from the csv file
+*   [X] List all of the data that is used by the program, making note of where it comes from.
+	* INPUT:
+	1. ONLY ONE ARGUMENT, a directory (the file names 'area-titles.csv' and '2021.annual.singlefile.csv' will be hard-coded in)
+	2. If there is no argument(directory) given, the error code 'Usage: src/bigData.py DATA_DIRECTORY' is printed and the program exits
+	3. If directory can't be accessed, let open() fail and give the automated error message
     *   Explain what form the output will take.
-*   [ ] List the algorithms that will be used (but don't write them yet).
-*   [ ] Tag the last commit in this phase `analyzed`
+	* OUTPUT:
+	1. The only output should be made by running 'print_report(rpt)' (prints can write to STDERR)
+	2. Should include no extra: newlines; spaces; quote marks; FIPS codes(instead show "County, State")
+	3. Test by redirecting STDOUT to a file and comparing it to the examples like so: 
+	        3a. python src/big_data.py data/UT_all_industries > ut.txt
+		3b. diff -u ut.txt data/UT_all_industries/output.txt
+	4. Outputs the 'Number of FIPS areas in report', the 'Total annual wages', 'Area with maximum annual wages' in human readability form, the 'Maximum reported wage', the 'Total number of establishments', the 'Area with most establishments', the 'Maximum # of establishments'(num in area with most), the 'Total annual employment level', the 'Area with maximum employment'(in human form), and the 'Maximum reported employment level'
+	5. That output is for both all industries and the software publishing industry (separate sections to display each)
+	6. If outputting a file like 'software_industry' or 'all_industries', input zeros for all numbers and blank lines for all character lines of the section not wanted
+	7. If outputting 'reversed', use tac to reverse the basic 'complete set
+
+*   [X] List the algorithms that will be used (but don't write them yet).
+	* str.split: takes arguments (self, sep, maxsplit) so set maxsplit to 2 for FIPS
+	* An algorithm to see if a string has letters in it and whether the last 3 numbers are zeros
+	* An algorithm to read and store one line of a file at a time in memory
+	* An algorithm to find the 'area_fips', 'industry_code', and 'own_code'
+	* An algorithm to find how many FIPS areas are in the report
+	* An algorithm to find 'Total annual wages', 'Area with maximum annual wages', and 'Maximum reported wage'
+	* An algorithm to find 'Total number of establishments', 'Area with most establishments', and 'Maximum # of establishments'
+	* An algorithm to find 'Total annual employment level', 'Area with maximum employment', and 'Maximum reported employment level'
+	* An algorithm to create a section of the output(with 'software_industry' or 'all_industries' as a parameter)
+
+*   [X] Tag the last commit in this phase `analyzed`
     *   *Grace Points: if this tag is pushed by midnight on the Sunday before the due date, you will receive up to 5 points back*
 
 
@@ -34,6 +150,50 @@ Deliver:
     *   Documentation strings that explain its purpose and types of inputs and outputs.
 *   [ ] Pseudocode that captures how each function works.
     *   Pseudocode != source code.  Do not paste your finished source code into this part of the plan.
+	* Area titles and their corresponding place name are in 'area-titles.csv'
+	* '2021.annual.singlefile.csv' has columns separated by commas in the following order:
+	0. 'area_fips'
+	1. 'own_code'
+	2. 'industry_code'
+	3. 'agglvl_code'
+	4. 'size_code'
+	5. 'year' (shouldn't be important)
+	6. 'qtr' (might not be important)
+	7. 'disclosure_code' (might not be important)
+	8. 'annual_avg_estabs'   (important)
+	9. 'annual_avg_emplvl'  (important)
+	10. 'total_annual_wages' (important)
+	11. 'taxable_annual_wages' (might not be important)
+	12. 'annual_contributions' (might not be important)
+	13. 'annual_avg_wkly_wage' (might not be important)
+	14. 'avg_annual_pay'       (important I think)
+	15. 'lq_disclosure_code'   (most likely not important)
+	16. 'lq_annual_avg_estabs' (important I think)
+	17. 'lq_annual_avg_emplvl' (maybe important)
+	18. 'lq_total_annual_wages' (probably important)
+	19. 'lq_taxable_annual_wages' (not important most likely)
+	20. 'lq_annual_contributions' (not important most likely)
+	21. "lq_annual_avg_wkly_wage" (not important most likely)
+	22. "lq_avg_annual_pay"  (maybe important)
+	23. "oty_disclosure_code" (not important)
+	24. "oty_annual_avg_estabs_chg" (not important)
+	25. "oty_annual_avg_estabs_pct_chg" (not important)
+	26. "oty_annual_avg_emplvl_chg"  (not important)
+	27. "oty_annual_avg_emplvl_pct_chg"  (not important)
+	28. "oty_total_annual_wages_chg"  (not important)
+	29. "oty_total_annual_wages_pct_chg"  (not important)
+	30. "oty_taxable_annual_wages_chg"  (not important)
+	31. "oty_taxable_annual_wages_pct_chg" (not important)
+	32. "oty_annual_contributions_chg"  (not important)
+	33. "oty_annual_contributions_pct_chg"  (not important)
+	34. "oty_annual_avg_wkly_wage_chg"  (not important) 
+	35. "oty_annual_avg_wkly_wage_pct_chg"  (not important)
+	36. "oty_avg_annual_pay_chg"  (not important)
+	37. "oty_avg_annual_pay_pct_chg"  (not important)
+
+	1. def sectionPrint(industry)      WORK ON MORE OBVIOUSLY
+		print newline before and after
+	2. def finishPrint()		MAYBE
 *   Explain what happens in the face of good and bad input.
     *   Write a few specific examples that occur to you, and use them later when testing
 *   [ ] Tag the last commit in this phase `designed`
