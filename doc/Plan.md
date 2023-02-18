@@ -56,7 +56,7 @@ Deliver:
 	5. Fill out the Assignment Reflection Survey
 
 *   [X] Explain the problem this program aims to solve.
-	* This program aims to summarize the employment data for 2021
+	* This program aims to summarize the employment data for 2021 from a CSV file
     *   Describe what a *good* solution looks like.
 	* A good solution will look like the following:
 	[============]
@@ -123,7 +123,7 @@ Deliver:
 	7. If outputting 'reversed', use tac to reverse the basic 'complete set
 
 *   [X] List the algorithms that will be used (but don't write them yet).
-	* str.split: takes arguments (self, sep, maxsplit) so set maxsplit to 2 for FIPS
+	* str.split: takes arguments (self, sep, maxsplit) so set maxsplit to 1 for FIPS
 	* An algorithm to see if a string has letters in it and whether the last 3 numbers are zeros
 	* An algorithm to read and store one line of a file at a time in memory
 	* An algorithm to find the 'area_fips', 'industry_code', and 'own_code'
@@ -162,7 +162,7 @@ Deliver:
 	7. 'disclosure_code' (might not be important)
 	8. 'annual_avg_estabs'   (important)
 	9. 'annual_avg_emplvl'  (important)
-	10. 'total_annual_wages' (important)
+	10. 'total_annual_wages' (important) **
 	11. 'taxable_annual_wages' (might not be important)
 	12. 'annual_contributions' (might not be important)
 	13. 'annual_avg_wkly_wage' (might not be important)
@@ -190,12 +190,86 @@ Deliver:
 	35. "oty_annual_avg_wkly_wage_pct_chg"  (not important)
 	36. "oty_avg_annual_pay_chg"  (not important)
 	37. "oty_avg_annual_pay_pct_chg"  (not important)
+	
 
-	1. def sectionPrint(industry)      WORK ON MORE OBVIOUSLY
-		print newline before and after
-	2. def finishPrint()		MAYBE
+	** DICTIONARY METHODS THAT MIGHT BE USEFUL  **
+			1. __setitem__(self, key, value, /)
+ 			   	Set self[key] to value.
+			2. __getattribute__(self, name, /)
+		     	   	Return getattr(self, name).
+			3. __getitem__(...)
+   			   	x.__getitem__(y) <==> x[y]
+			4. __contains__(self, key, /)
+		     	   	True if the dictionary has the specified key, else False.			
+			5. get(self, key, default=None, /)
+		     	   	Return the value for key if key is in the dictionary, else default.	
+			6. 
+	1. Check if a directory is passed as an argument		
+		if length of sys.argv is less than or equal to 1 (no directory passed)
+			print('Usage: src/bigData.py DATA_DIRECTORY')
+			exit	 
+		*** NO NEED TO SET UP ANYTHING FOR PRINTING, 'print_report(rpt)' IS DEFINED ALREADY
+	2. Create FIPS dictionary(using new module FIPS.py)
+		Create FIPS as a blank dictionary by doing 'FIPS = {}'
+		open(sys.argv[1]/area-titles.csv)
+		for line in file
+			(fipsCode, title) = line.split(',', maxsplit = 1) (should not split the title that way)
+			if fipsCode is an integer (possible check if not string)					if fipsCode / 1000 is not an integer (shows if last 3 digit are zero)
+				FIPS[int(fipsCode)] = title (key fipsCode directs to title in dictionary)
+
+	3. Collecting info from 2021.annual.singlefile.csv
+		open(sys.argv[1]/2021.annual.singlefile.csv)
+			rpt['all']['num_areas']           = 1337
+		1. Getting num_areas
+			1. Create var areas = 0
+			2. For loop through
+				increment areas by 1
+			   Set rpt[sector]['num_areas'] to areas
+		2. Getting total_annual_wages
+			1. Create var wages = 0
+			2. For loop through, 
+				increment wages by total_annual_wages of FIPS
+		           Set rpt[sector]['total_annual_wages'] to wages
+		3. Getting max_annual_wages
+			1. Create int var max_wages_var = 0
+			2. Create string var max_wages_loc = ""
+			3. For loop through
+				if max_annual_wages is greater than max_wages_var
+					max_wages_var = max_annual_wages
+					max_wages_loc = location of current FIPS in human form
+			   Set rpt[sector]['max_annual_wages] = [max_wages_loc, max_wages_var]
+		4.  			
+# Getting all
+rpt['all']['num_areas']		  = 1010
+
+rpt['all']['total_annual_wages']  = 13333337
+rpt['all']['max_annual_wage']     = ["Trantor", 123456]
+
+rpt['all']['total_estab']         = 42
+rpt['all']['max_estab']           = ["Terminus", 12]
+
+rpt['all']['total_empl']          = 987654
+rpt['all']['max_empl']            = ["Anacreon", 654]
+
+# Getting software
+rpt['soft']['num_areas']          = 1010
+
+rpt['soft']['total_annual_wages'] = 101001110111
+rpt['soft']['max_annual_wage']    = ["Helicon", 110010001]
+
+rpt['soft']['total_estab']        = 1110111
+rpt['soft']['max_estab']          = ["Solaria", 11000]
+
+rpt['soft']['total_empl']         = 100010011
+rpt['soft']['max_empl']           = ["Gaia", 10110010]		
+
 *   Explain what happens in the face of good and bad input.
+	1. Good Input: The program will output a file similar to the one outlined in Phase 0, with correct variables in place depending on user desired output. 
+	2. Bad Input: If there is no directory passed, an error message will be printed. If an invalid directory is passed, the program will crash and generate an error message to display.
     *   Write a few specific examples that occur to you, and use them later when testing
+	1. No directory passed: should print error message 'Usage: src/bigData.py DATA_DIRECTORY' and quit)
+	2. Invalid directory passed: program should print automated error message and crash
+	3. Program should output data correctly
 *   [ ] Tag the last commit in this phase `designed`
     *   *Grace Points: if this tag is pushed by midnight on the Sunday before the due date, you will receive up to 5 points back*
 
