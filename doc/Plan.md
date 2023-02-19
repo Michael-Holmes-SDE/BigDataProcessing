@@ -152,47 +152,21 @@ Deliver:
     *   Pseudocode != source code.  Do not paste your finished source code into this part of the plan.
 	* Area titles and their corresponding place name are in 'area-titles.csv'
 	* '2021.annual.singlefile.csv' has columns separated by commas in the following order:
-	0. 'area_fips'
-	1. 'own_code'
-	2. 'industry_code'
-	3. 'agglvl_code'
-	4. 'size_code'
-	5. 'year' (shouldn't be important)
-	6. 'qtr' (might not be important)
-	7. 'disclosure_code' (might not be important)
-	8. 'annual_avg_estabs'   (important)
-	9. 'annual_avg_emplvl'  (important)
-	10. 'total_annual_wages' (important) **
-	11. 'taxable_annual_wages' (might not be important)
-	12. 'annual_contributions' (might not be important)
-	13. 'annual_avg_wkly_wage' (might not be important)
-	14. 'avg_annual_pay'       (important I think)
-	15. 'lq_disclosure_code'   (most likely not important)
-	16. 'lq_annual_avg_estabs' (important I think)
-	17. 'lq_annual_avg_emplvl' (maybe important)
-	18. 'lq_total_annual_wages' (probably important)
-	19. 'lq_taxable_annual_wages' (not important most likely)
-	20. 'lq_annual_contributions' (not important most likely)
-	21. "lq_annual_avg_wkly_wage" (not important most likely)
-	22. "lq_avg_annual_pay"  (maybe important)
-	23. "oty_disclosure_code" (not important)
-	24. "oty_annual_avg_estabs_chg" (not important)
-	25. "oty_annual_avg_estabs_pct_chg" (not important)
-	26. "oty_annual_avg_emplvl_chg"  (not important)
-	27. "oty_annual_avg_emplvl_pct_chg"  (not important)
-	28. "oty_total_annual_wages_chg"  (not important)
-	29. "oty_total_annual_wages_pct_chg"  (not important)
-	30. "oty_taxable_annual_wages_chg"  (not important)
-	31. "oty_taxable_annual_wages_pct_chg" (not important)
-	32. "oty_annual_contributions_chg"  (not important)
-	33. "oty_annual_contributions_pct_chg"  (not important)
-	34. "oty_annual_avg_wkly_wage_chg"  (not important) 
-	35. "oty_annual_avg_wkly_wage_pct_chg"  (not important)
-	36. "oty_avg_annual_pay_chg"  (not important)
-	37. "oty_avg_annual_pay_pct_chg"  (not important)
+	0. 'area_fips' (important)  **
+	1. 'own_code' (important)  **
+	2. 'industry_code' (important)  **
+	3. 'agglvl_code' (not important)
+	4. 'size_code' (not important)
+	5. 'year' (not important)
+	6. 'qtr' (not important)
+	7. 'disclosure_code' (not important)
+	8. 'annual_avg_estabs'   (important)  **
+	9. 'annual_avg_emplvl'  (important)  **
+	10. 'total_annual_wages' (important)  **
+	11. None of the remaining columns are important for this program
 	
 
-	** DICTIONARY METHODS THAT MIGHT BE USEFUL  **
+	** DICTIONARY METHODS THAT MIGHT BE USEFUL **
 			1. __setitem__(self, key, value, /)
  			   	Set self[key] to value.
 			2. __getattribute__(self, name, /)
@@ -203,7 +177,6 @@ Deliver:
 		     	   	True if the dictionary has the specified key, else False.			
 			5. get(self, key, default=None, /)
 		     	   	Return the value for key if key is in the dictionary, else default.	
-			6. 
 	1. Check if a directory is passed as an argument		
 		if length of sys.argv is less than or equal to 1 (no directory passed)
 			print('Usage: src/bigData.py DATA_DIRECTORY')
@@ -216,52 +189,65 @@ Deliver:
 			(fipsCode, title) = line.split(',', maxsplit = 1) (should not split the title that way)
 			if fipsCode is an integer (possible check if not string)					if fipsCode / 1000 is not an integer (shows if last 3 digit are zero)
 				FIPS[int(fipsCode)] = title (key fipsCode directs to title in dictionary)
+		close file
 
 	3. Collecting info from 2021.annual.singlefile.csv
 		open(sys.argv[1]/2021.annual.singlefile.csv)
-			rpt['all']['num_areas']           = 1337
+		**Everything below will run twice, once for each section of industry (all and software)
+		until fips of csv is the same as the 
+		create var areas_all = 0
+		create var areas_software = 0
+		create var wages_all = 0
+		create var wages_software = 0
+		for element in array FIPS
+			if fips code of csv file (column 0) is the same as in array FIPS
+				if industry_code = 10 (column 2) and own_code = 0 (column 1)
+					run below with sector = 'all industries'
+				if industry_code = 5112 (column 2) and own_code = 5 (column 1)
+					run below with sector = 'software publishing industry'
 		1. Getting num_areas
-			1. Create var areas = 0
-			2. For loop through
-				increment areas by 1
-			   Set rpt[sector]['num_areas'] to areas
+			1. For loop through
+				increment var_SECTOR areas by 1
+			2. Set rpt[sector]['num_areas'] to areas_SECTOR
 		2. Getting total_annual_wages
-			1. Create var wages = 0
-			2. For loop through, 
-				increment wages by total_annual_wages of FIPS
-		           Set rpt[sector]['total_annual_wages'] to wages
+			1. For loop through 
+				increment wages_SECTOR by total_annual_wages of FIPS (column 10 of csv)
+		        2. Set rpt[sector]['total_annual_wages'] to wages_SECTOR
 		3. Getting max_annual_wages
 			1. Create int var max_wages_var = 0
-			2. Create string var max_wages_loc = ""
+			2. Create blank string var max_wages_loc
 			3. For loop through
-				if max_annual_wages is greater than max_wages_var
-					max_wages_var = max_annual_wages
-					max_wages_loc = location of current FIPS in human form
-			   Set rpt[sector]['max_annual_wages] = [max_wages_loc, max_wages_var]
-		4.  			
-# Getting all
-rpt['all']['num_areas']		  = 1010
-
-rpt['all']['total_annual_wages']  = 13333337
-rpt['all']['max_annual_wage']     = ["Trantor", 123456]
-
-rpt['all']['total_estab']         = 42
-rpt['all']['max_estab']           = ["Terminus", 12]
-
-rpt['all']['total_empl']          = 987654
-rpt['all']['max_empl']            = ["Anacreon", 654]
-
-# Getting software
-rpt['soft']['num_areas']          = 1010
-
-rpt['soft']['total_annual_wages'] = 101001110111
-rpt['soft']['max_annual_wage']    = ["Helicon", 110010001]
-
-rpt['soft']['total_estab']        = 1110111
-rpt['soft']['max_estab']          = ["Solaria", 11000]
-
-rpt['soft']['total_empl']         = 100010011
-rpt['soft']['max_empl']           = ["Gaia", 10110010]		
+				if total_annual_wages(column 10 of csv) is greater than max_wages_var
+					max_wages_var = total_annual_wages
+					set string var max_wages_loc = location of current FIPS in human form
+			4. Set rpt[sector]['max_annual_wages] = [max_wages_loc, max_wages_var]
+		4. getting total_estab
+			1. Create var estabs = 0
+			2. For loop through
+				increment estabs by annual_avg_estabs of FIPS (column 8 of csv)
+			3. set rpt[sector]['total_estab'] = estabs
+		5. getting max_estab
+			1. Create int var max_estab_var = 0
+			2. Create blank string var max_estab_loc
+			3. For loop through
+				if annual_avg_estabs (column 8 of csv) is greater than max_estab_var
+					max_estab_var = annual_avg_estabs
+					set string var max_estab_loc = location of current FIPS in human form
+			4. Set rpt[sector]['max_estab'] = [max_estab_loc, max_estab_var]
+		6. getting total_empl
+			1. Create var empl = 0
+			2. For loop through
+				increment empl by annual_avg_emplvl of FIPS (column 9 of csv)
+			3. Set rpt[sector]['total_empl'] = empl
+		7. getting max_empl
+			1. Create int var max_empl_var = 0
+			2. Create blank string var max_empl_loc
+			3. For loop through
+				if annual_avg_emplvl (column 9 of csv) is greater than max_empl_var
+					max_empl_var = annual_avg_emplvl
+					max_empl_loc = location of current FIPS in human form
+			4. Set rpt[sector]['max_empl'] = [max_empl_loc, max_empl_var]
+		close file	
 
 *   Explain what happens in the face of good and bad input.
 	1. Good Input: The program will output a file similar to the one outlined in Phase 0, with correct variables in place depending on user desired output. 
