@@ -32,7 +32,7 @@ Deliver:
 	
 	* PHASE 2:
 	1. Follow the instructions in each sub-directory of data/USA_full/ to make test cases
-	2. Use the Benchmark to see how long the program should take (225.22s)(took 45.04s)
+	2. Use the Benchmark to see how long the program should take
 	3. Implement the code as defined in Phase 1 to where the program works without crashing
 	4. Ensure the code can be run from any directory but the files themselves are hard-coded
 	4. Explain what changed between Phase 1 and Phase 2
@@ -144,11 +144,11 @@ Deliver:
 
 Deliver:
 
-*   [ ] Function signatures that include:
+*   [X] Function signatures that include:
     *   Descriptive names.
     *   Parameter lists.
     *   Documentation strings that explain its purpose and types of inputs and outputs.
-*   [ ] Pseudocode that captures how each function works.
+*   [X] Pseudocode that captures how each function works.
     *   Pseudocode != source code.  Do not paste your finished source code into this part of the plan.
 	* Area titles and their corresponding place name are in 'area-titles.csv'
 	* '2021.annual.singlefile.csv' has columns separated by commas in the following order:
@@ -188,13 +188,14 @@ Deliver:
 		for line in file
 			(fipsCode, title) = line.split(',', maxsplit = 1) (should not split the title that way)
 			if fipsCode is an integer (possible check if not string)					if fipsCode / 1000 is not an integer (shows if last 3 digit are zero)
-				FIPS[int(fipsCode)] = title (key fipsCode directs to title in dictionary)
+				if last 3 digits are not 0:
+					FIPS[int(fipsCode)] = title (key fipsCode directs to title in dictionary)
 		close file
 
 	3. Collecting info from 2021.annual.singlefile.csv
 		open(sys.argv[1]/2021.annual.singlefile.csv)
 		**Everything below will run twice, once for each section of industry (all and software)
-		until fips of csv is the same as the 
+		until fips of csv is the same as the one in the dictionary (use __contains__ on dictionary)
 		create var areas_all = 0
 		create var areas_software = 0
 		create var wages_all = 0
@@ -208,8 +209,8 @@ Deliver:
 		1. Getting num_areas
 			1. For loop through
 				increment var_SECTOR areas by 1
-			2. Set rpt[sector]['num_areas'] to areas_SECTOR
-		2. Getting total_annual_wages
+			2. Set rpt[sector]['num_areas'] to areas_SECTOR 2. Getting 
+		total_annual_wages
 			1. For loop through 
 				increment wages_SECTOR by total_annual_wages of FIPS (column 10 of csv)
 		        2. Set rpt[sector]['total_annual_wages'] to wages_SECTOR
@@ -256,7 +257,7 @@ Deliver:
 	1. No directory passed: should print error message 'Usage: src/bigData.py DATA_DIRECTORY' and quit)
 	2. Invalid directory passed: program should print automated error message and crash
 	3. Program should output data correctly
-*   [ ] Tag the last commit in this phase `designed`
+*   [X] Tag the last commit in this phase `designed`
     *   *Grace Points: if this tag is pushed by midnight on the Sunday before the due date, you will receive up to 5 points back*
 
 
@@ -267,10 +268,12 @@ Deliver:
 
 Deliver:
 
-*   [ ] More or less working code.
-*   [ ] Note any relevant and interesting events that happened while you wrote the code.
+*   [X] More or less working code.
+*   [X] Note any relevant and interesting events that happened while you wrote the code.
     *   e.g. things you learned, things that didn't go according to plan
-*   [ ] Tag the last commit in this phase `implemented`
+	1. Both .isdigit() and .isnumeric() didn't work to test fips area codes, so I had to .strip() then .replace() quotation marks out of the variables
+	2. I learned about maxsplit's and how the maxsplit value isn't how many total elements are created, but one less because if there are extras they are all added to an element after the value of maxsplit's element 
+*   [X] Tag the last commit in this phase `implemented`
 
 
 ## Phase 3: Testing and Debugging (tag name `tested`)

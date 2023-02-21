@@ -22,79 +22,90 @@
 #       or product names of the Licensor, except as required for  	  	  
 #       reasonable and customary use of the source files.  	  	  
 
-import time  	  	  
-import sys  	  	  
-from report import print_report  	  	  
-
+import time
+import sys
+from report import print_report
 
 # print_report takes a dictionary with these contents:  	  	  
-rpt = {  	  	  
-        'year': 2021,  	  	  
+rpt = {
+    'year': 2021,
 
-        'all': {  	  	  
-            'num_areas': 0,  	  	  
-            'total_annual_wages': 0,  	  	  
-            'max_annual_wage': ["", 0],  	  	  
-            'total_estab': 0,  	  	  
-            'max_estab': ["", 0],  	  	  
-            'total_empl': 0,  	  	  
-            'max_empl': ["", 0],  	  	  
-        },  	  	  
+    'all': {
+        'num_areas': 0,
+        'total_annual_wages': 0,
+        'max_annual_wage': ["", 0],
+        'total_estab': 0,
+        'max_estab': ["", 0],
+        'total_empl': 0,
+        'max_empl': ["", 0],
+    },
 
-        'soft': {  	  	  
-            'num_areas': 0,  	  	  
-            'total_annual_wages': 0,  	  	  
-            'max_annual_wage': ["", 0],  	  	  
-            'total_estab': 0,  	  	  
-            'max_estab': ["", 0],  	  	  
-            'total_empl': 0,  	  	  
-            'max_empl': ["", 0],  	  	  
-        },  	  	  
-}  	  	  
-
-print("TODO: if sys.argv[1] is not given, print a usage message and exit")  # DELETE ME  	  	  
-
-print("Reading the databases...", file=sys.stderr)  	  	  
-before = time.time()  	  	  
-
-print("TODO: if opening the file 'sys.argv[1]/area-titles.csv' fails, let your program crash here")  # DELETE ME  	  	  
-print("TODO: Convert the file 'sys.argv[1]/area-titles.csv' into a dictionary")  # DELETE ME  	  	  
-print("TODO: the FIPS dictionary should contain 3,463 pairs")  # DELETE ME  	  	  
-
-print("TODO: if opening the file 'sys.argv[1]/2021.annual.singlefile.csv' fails, let your program crash here")  # DELETE ME  	  	  
-print("TODO: Collect information from 'sys.argv[1]/2021.annual.singlefile.csv'")  # DELETE ME  	  	  
-
-print("TODO: Fill in the report dictionary for all industries")  # DELETE ME  	  	  
-rpt['all']['num_areas']           = 1337  	  	  
-
-rpt['all']['total_annual_wages']  = 13333337  	  	  
-rpt['all']['max_annual_wage']     = ["Trantor", 123456]  	  	  
-
-rpt['all']['total_estab']         = 42  	  	  
-rpt['all']['max_estab']           = ["Terminus", 12]  	  	  
-
-rpt['all']['total_empl']          = 987654  	  	  
-rpt['all']['max_empl']            = ["Anacreon", 654]  	  	  
+    'soft': {
+        'num_areas': 0,
+        'total_annual_wages': 0,
+        'max_annual_wage': ["", 0],
+        'total_estab': 0,
+        'max_estab': ["", 0],
+        'total_empl': 0,
+        'max_empl': ["", 0],
+    },
+}
+# Is directory given?
+if len(sys.argv) <= 1:
+    print('Usage: src/bigData.py DATA_DIRECTORY')
+    exit()
+print("Reading the databases...", file=sys.stderr)
+before = time.time()  # Start timer
+FIPS = {}
+file = open(sys.argv[1] + '/area-titles.csv')
+# Adding relevant fips areas and their names to the FIPS dictionary
+for line in file:
+    (fipsCode, title) = line.split(',', maxsplit=1)
+    fipsCode = fipsCode.strip().replace("\"", "")
+    title = title.strip().replace("\"", "")
+    if fipsCode.isdigit():
+        if not fipsCode.endswith('000'):
+            FIPS[fipsCode] = title
+file.close()
 
 
-print("TODO: Fill in the report dictionary for the software publishing industry")  # DELETE ME  	  	  
-rpt['soft']['num_areas']          = 1010  	  	  
+# Getting data when called
+def gettingData(industry, fipsCode, annualAvgEstabs, annualAvgEmplvl, totalAnnualWages):
+    rpt[industry]['num_areas'] += 1
+    rpt[industry]['total_annual_wages'] += int(totalAnnualWages)
+    if int(totalAnnualWages) > int(rpt[industry]['max_annual_wage'][1]):
+        rpt[industry]['max_annual_wage'] = [FIPS[fipsCode], int(totalAnnualWages)]
+    rpt[industry]['total_estab'] += int(annualAvgEstabs)
+    if int(annualAvgEstabs) > int(rpt[industry]['max_estab'][1]):
+        rpt[industry]['max_estab'] = [FIPS[fipsCode], int(annualAvgEstabs)]
+    rpt[industry]['total_empl'] += int(annualAvgEmplvl)
+    if int(annualAvgEmplvl) > int(rpt[industry]['max_empl'][1]):
+        rpt[industry]['max_empl'] = [FIPS[fipsCode], int(annualAvgEmplvl)]
 
-rpt['soft']['total_annual_wages'] = 101001110111  	  	  
-rpt['soft']['max_annual_wage']    = ["Helicon", 110010001]  	  	  
 
-rpt['soft']['total_estab']        = 1110111  	  	  
-rpt['soft']['max_estab']          = ["Solaria", 11000]  	  	  
+# Getting data from each line in file and checking if it is a relevant fips, ownCode and industryCode to pass onto gettingData
+file = open(sys.argv[1] + '/2021.annual.singlefile.csv')
+for line in file:
+    valuesList = line.split(',', maxsplit=11)
+    fipsCode = valuesList[0].strip().replace("\"", "")
+    ownCode = valuesList[1].strip().replace("\"", "")
+    industryCode = valuesList[2].strip().replace("\"", "")
+    annualAvgEstabs = valuesList[8].strip().replace("\"", "")
+    annualAvgEmplvl = valuesList[9].strip().replace("\"", "")
+    totalAnnualWages = valuesList[10].strip().replace("\"", "")  # (POSSIBLY) GET RID OF VARIABLES AFTER EVERYTHING WORKS AND USE THE DICTIONARY
+    industry = ""
+    if fipsCode in FIPS:
+        if ownCode == "0" and industryCode == "10":
+            industry = 'all'
+            gettingData(industry, fipsCode, annualAvgEstabs, annualAvgEmplvl, totalAnnualWages)
+        if ownCode == '5' and industryCode == '5112':
+            industry = 'soft'
+            gettingData(industry, fipsCode, annualAvgEstabs, annualAvgEmplvl, totalAnnualWages)
+file.close()
 
-rpt['soft']['total_empl']         = 100010011  	  	  
-rpt['soft']['max_empl']           = ["Gaia", 10110010]  	  	  
-
-
-after = time.time()  	  	  
-print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)  	  	  
-
+# End timer and print time it took to create the report
+after = time.time()
+print(f"Done in {after - before:.3f} seconds!", file=sys.stderr)
 
 # Print the completed report  	  	  
-print_report(rpt)  	  	  
-
-print("\n\nTODO: did you delete all of the TODO messages?")  # DELETE ME  	  	  
+print_report(rpt)
