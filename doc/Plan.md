@@ -281,11 +281,18 @@ Deliver:
 
 Deliver:
 
-*   [ ] A set of test cases that you have personally run on your computer.
+*   [X] A set of test cases that you have personally run on your computer.
     *   Include a description of what happened for each test case.
     *   For any bugs discovered, describe their cause and remedy.
     *   Write your test cases in plain language such that a non-coder could run them and replicate your experience.
-*   [ ] Tag the last commit in this phase `tested`
+	1. For the test cases I navigated to each directory, read using 'nano' the 'README.md' and follow the instructions to create the trimmed down csv file to test that directory. 
+	2. Then the program should be run as normal from the command line, from the base of the project directory(in this case '/cs1440-assn3/') and making a new file from the result in the following way: 'python src/big_data.py data/{Directory to test} > {new file you name}'. 
+	3. Then compare what was printed with the original by running 'diff -u --color=always {file you created above} data/{directory}/output.txt'
+	4. If that doesn't work and you are on a Windows computer, then compare what was printed with the original by running 'diff -u -Z --color=always {file you created above} data/{directory}/output.txt'
+	5. I did this for UT_software_industry, UT_all_industries, UT_reversed, USA_full, DC_software_industry, and  
+	6. For each test case I ran, everything outputted as expected and no differences were detected
+*   [X] Tag the last commit in this phase `tested`
+
 
 
 ## Phase 4: Deployment (tag name `deployed`)
