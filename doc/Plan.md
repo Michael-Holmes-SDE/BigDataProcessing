@@ -319,17 +319,21 @@ Spend a few minutes writing thoughtful answers to these questions.  They are mea
 
 Deliver:
 
-*   [ ] Write brief and honest answers to these questions:
+*   [X] Write brief and honest answers to these questions:
     *   What parts of your program are sloppily written and hard to understand?
         *   Are there parts of your program which you aren't quite sure how/why they work?
         *   If a bug is reported in a few months, how long would it take you to find the cause?
+	1. I know why everything works in my program, and if a bug is reported it would probably take about an hour to find out why.
     *   Will your documentation make sense to...
         *   ...anybody besides yourself?
         *   ...yourself in six month's time?
+	1. I hope my documentation makes sense to others, and it will to me in six months.
     *   How easy will it be to add a new feature to this program in a year?
+	1. It depends on the feature, it shouldn't be too difficult but not easy either.
     *   Will your program continue to work after upgrading...
         *   ...your computer's hardware?
         *   ...the operating system?
         *   ...to the next version of Python?
-*   [ ] Make one final commit and push your **completed** Software Development Plan to GitLab.
-*   [ ] Respond to the **Assignment Reflection Survey** on Canvas.
+	1. The program should continue to work no matter what is upgraded.
+*   [X] Make one final commit and push your **completed** Software Development Plan to GitLab.
+*   [X] Respond to the **Assignment Reflection Survey** on Canvas.
