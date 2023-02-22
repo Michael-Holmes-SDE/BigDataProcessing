@@ -289,7 +289,7 @@ Deliver:
 	2. Then the program should be run as normal from the command line, from the base of the project directory(in this case '/cs1440-assn3/') and making a new file from the result in the following way: 'python src/big_data.py data/{Directory to test} > {new file you name}'. 
 	3. Then compare what was printed with the original by running 'diff -u --color=always {file you created above} data/{directory}/output.txt'
 	4. If that doesn't work and you are on a Windows computer, then compare what was printed with the original by running 'diff -u -Z --color=always {file you created above} data/{directory}/output.txt'
-	5. I did this for UT_software_industry, UT_all_industries, UT_reversed, USA_full, DC_software_industry, and  
+	5. I did this for UT_software_industry, UT_all_industries, UT_reversed, USA_full, DC_software_industry, and HI_complete
 	6. For each test case I ran, everything outputted as expected and no differences were detected
 *   [X] Tag the last commit in this phase `tested`
 
@@ -300,14 +300,14 @@ Deliver:
 
 Deliver:
 
-*   [ ] Tag the last commit in this phase `deployed`
-*   [ ] Your repository is pushed to GitLab.
-*   [ ] **Verify** that your final commit was received by browsing to its project page on GitLab.
+*   [X] Tag the last commit in this phase `deployed`
+*   [X] Your repository is pushed to GitLab.
+*   [X] **Verify** that your final commit was received by browsing to its project page on GitLab.
     *   Ensure the project's URL is correct.
     *   Review the project to ensure that all required files are present and in correct locations.
     *   Check that unwanted files have not been included.
     *   Make any final touches to documentation, including the Sprint Signature and this Plan.
-*   [ ] **Validate** that your submission is complete and correct by cloning it to a new location on your computer and re-running it.
+*   [X] **Validate** that your submission is complete and correct by cloning it to a new location on your computer and re-running it.
 	*	Run your program from the command line so you can see how it will behave when your grader runs it.  **Running it in PyCharm is not good enough!**
     *   Run through your test cases to avoid nasty surprises.
     *   Check that your documentation files are all present.
